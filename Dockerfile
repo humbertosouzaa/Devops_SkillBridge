@@ -1,35 +1,33 @@
-# ====== Etapa 1: Build com Maven + Java 21 ======
-FROM maven:3.9-eclipse-temurin-21 AS build
+# build
+FROM eclipse-temurin:17-jdk-alpine as build
+WORKDIR /workspace/app
 
-# Diretório de trabalho (onde o Render irá montar o projeto)
-WORKDIR /workspace
+# Maven
+RUN apk add --no-cache maven
 
-# Copia somente o pom.xml para baixar dependências (cache eficiente)
+# build
 COPY pom.xml .
+COPY src src
 
-# Baixa dependências para acelerar builds futuros
-RUN mvn -q dependency:go-offline
+# Compila o projeto
+RUN mvn package -DskipTests
 
-# Copia todo o projeto
-COPY . .
+# Extrai dependências
+RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
-# Compila para .jar (sem testes)
-RUN mvn -q clean package -DskipTests
+# Etapa de runtime
+FROM eclipse-temurin:17-jre-alpine
+VOLUME /tmp
 
+ARG DEPENDENCY=/workspace/app/target/dependency
 
+COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
+COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
+COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
-# ====== Etapa 2: Runtime com Java 21 ======
-FROM eclipse-temurin:21-jdk
+# Entrada da aplicação
+ENTRYPOINT ["java","-cp","app:app/lib/*","com.example.SkillBridgeApplication"]
 
-# Diretório final no container
-WORKDIR /workspace
-
-# Copia o artefato final do build
-COPY --from=build /workspace/target/*.jar app.jar
-
-# Render injeta PORT dinamicamente
-ENV PORT=8080
-EXPOSE 8080
-
-# Executa o app
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Usuário não-root para segurança
+RUN addgroup -S spring && adduser -S spring -G spring
+USER spring

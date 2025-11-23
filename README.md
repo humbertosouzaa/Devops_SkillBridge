@@ -40,7 +40,8 @@ A *Analytics API* transforma dados em **insights**, permitindo que usuários, em
 # 🏗️ **3. Arquitetura da Solução**
 
 ```
-./Diagrama.png
+![Arquitetura](Diagrama.png)
+
 ```
 
 ---
@@ -292,21 +293,6 @@ A pipeline publica:
 * Testes JUnit
 * Cobertura (se configurado)
 * Artifacts
-
----
-
-# 🏁 **13. Conclusão**
-
-Este repositório implementa **100% dos requisitos da GS de DevOps**, incluindo:
-
-✔ Projeto privado
-✔ Boards completo
-✔ Branch main protegida
-✔ Build + Release automatizados
-✔ Deploy no ACI + ACR
-✔ Scripts de Infra
-✔ Script SQL
-✔ Dockerfile oficial
 ✔ CRUD JSON
 ✔ Arquitetura macro
 ✔ Boas práticas de segurança

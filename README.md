@@ -40,7 +40,7 @@ A *Analytics API* transforma dados em **insights**, permitindo que usuários, em
 # 🏗️ **3. Arquitetura da Solução**
 
 ```
-![Arquitetura](Diagrama.png)
+![Diagrama da Arquitetura](./Diagrama.png)
 
 ```
 

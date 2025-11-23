@@ -18,12 +18,3 @@ spring:
   sql:
     init:
       mode: never
-
-  redis:
-    ssl:
-      enabled: true
-    url: ${UPSTASH_REDIS_URL}
-    password: ${UPSTASH_REDIS_PASSWORD}
-
-server:
-  port: 8080

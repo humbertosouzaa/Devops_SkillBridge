@@ -1,27 +1,23 @@
 spring:
   application:
-    name: SkillBridge
+    name: skillbridge
 
   datasource:
-    url: jdbc:h2:mem:skillbridge;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:sqlserver://aci-sqlskillbridge.eastus.azurecontainer.io:1433;databaseName=db_skillbridge;encrypt=true;trustServerCertificate=true;loginTimeout=30;
     username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    password: "Fiap@skillbridge2025"
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
 
-  jpa:
-    hibernate:
-      ddl-auto: none
+    jpa:
+      hibernate:
+        ddl-auto: none
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.SQLServerDialect
 
   sql:
     init:
-      mode: always
-      schema-locations: classpath:schema.sql
-      data-locations: classpath:data.sql
-
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+      mode: never
 
   redis:
     ssl:

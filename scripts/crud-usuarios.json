@@ -1,0 +1,44 @@
+{
+  "baseUrl": "http://SEU_DNS_API_AQUI:8080",
+
+  "endpoints": [
+    {
+      "name": "Listar todos os usuários",
+      "method": "GET",
+      "url": "/api/users",
+      "description": "Retorna a lista paginada de usuários cadastrados."
+    },
+    {
+      "name": "Buscar usuário por ID",
+      "method": "GET",
+      "url": "/api/users/1",
+      "description": "Retorna os dados do usuário com ID = 1."
+    },
+    {
+      "name": "Criar novo usuário",
+      "method": "POST",
+      "url": "/api/users",
+      "description": "Cria um novo usuário na plataforma SkillBridge.",
+      "requestBody": {
+        "nome": "Ana Silva",
+        "email": "ana.silva@skillbridge.ai"
+      }
+    },
+    {
+      "name": "Atualizar usuário existente",
+      "method": "PUT",
+      "url": "/api/users/1",
+      "description": "Atualiza os dados do usuário com ID = 1.",
+      "requestBody": {
+        "nome": "Ana Silva Atualizada",
+        "email": "ana.silva.novo@skillbridge.ai"
+      }
+    },
+    {
+      "name": "Deletar usuário",
+      "method": "DELETE",
+      "url": "/api/users/1",
+      "description": "Remove o usuário com ID = 1 do sistema."
+    }
+  ]
+}

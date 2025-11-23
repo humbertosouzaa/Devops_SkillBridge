@@ -107,8 +107,6 @@ Esse banco contém todas as tabelas da plataforma:
 
 # ⚙️ **5. Script de Infraestrutura (Azure CLI)**
 
-Arquivo obrigatório:
-
 ```
 /scripts/script-infra.sh
 ```
@@ -121,88 +119,19 @@ Arquivo obrigatório:
 > ☑ DNS público
 > ☑ Usuário e senha do SQL
 
-```bash
-#!/bin/bash
-set -euo pipefail
-
-RESOURCE_GROUP="rg-skillbridge"
-LOCATION="eastus"
-
-ACR_NAME="acrskillbridge"
-ACR_SKU="Basic"
-
-API_IMAGE_NAME="fiap/skillbridge-api"
-API_IMAGE_TAG="${1:-latest}"
-
-ACI_API_NAME="aci-skillbridge-api"
-ACI_SQL_NAME="aci-sqlskillbridge"
-
-API_DNS_LABEL="aci-skillbridge-api"
-SQL_DNS_LABEL="aci-sqlskillbridge"
-
-API_PORT=8080
-SQL_PORT=1433
-SQL_SA_PASSWORD="Fiap@Skillbridge2025"
-
-echo "▶ Criando Resource Group..."
-az group create --name "$RESOURCE_GROUP" --location "$LOCATION"
-
-echo "▶ Criando ACR..."
-az acr create --name "$ACR_NAME" \
-  --resource-group "$RESOURCE_GROUP" \
-  --sku "$ACR_SKU" --admin-enabled true
-
-ACR_LOGIN_SERVER=$(az acr show -n "$ACR_NAME" --query loginServer -o tsv)
-ACR_USER=$(az acr credential show -n "$ACR_NAME" --query username -o tsv)
-ACR_PASS=$(az acr credential show -n "$ACR_NAME" --query "passwords[0].value" -o tsv)
-
-
-echo "▶ Criando SQL Server em Container..."
-az container create \
-  --name "$ACI_SQL_NAME" \
-  --resource-group "$RESOURCE_GROUP" \
-  --location "$LOCATION" \
-  --image mcr.microsoft.com/mssql/server:2022-latest \
-  --cpu 2 --memory 4 \
-  --ports "$SQL_PORT" \
-  --dns-name-label "$SQL_DNS_LABEL" \
-  --environment-variables \
-      ACCEPT_EULA=Y \
-      MSSQL_SA_PASSWORD="$SQL_SA_PASSWORD" \
-      MSSQL_PID=Developer
-
-
-echo "▶ Criando API SkillBridge..."
-az container create \
-  --name "$ACI_API_NAME" \
-  --resource-group "$RESOURCE_GROUP" \
-  --location "$LOCATION" \
-  --image "$ACR_LOGIN_SERVER/$API_IMAGE_NAME:$API_IMAGE_TAG" \
-  --cpu 1 --memory 1.5 \
-  --ports "$API_PORT" \
-  --dns-name-label "$API_DNS_LABEL" \
-  --registry-login-server "$ACR_LOGIN_SERVER" \
-  --registry-username "$ACR_USER" \
-  --registry-password "$ACR_PASS"
-
-echo "✓ Infraestrutura criada com sucesso!"
-```
-
 ---
 
 # 🧪 **6. Script do Banco **
 
 /scripts
-  ├── crud-usuarios.json        # Arquivo JSON de exemplos CRUD
-  ├── data.sql                  # Inserts para popular o banco
-  ├── schema.sql                # Criação das tabelas
-  ├── script-infra.sh           # Script de infraestrutura Azure CLI
+
+├── crud-usuarios.json        # Arquivo JSON de exemplos CRUD
+├── data.sql                  # Inserts para popular o banco
+├── schema.sql                # Criação das tabelas
+├── script-infra.sh           # Script de infraestrutura Azure CLI
 
 
 # 🐳 **7. Dockerfile Oficial**
-
-(⚠ obrigatório segundo a GS)
-
 Arquivo fica em:
 
 ```
@@ -235,8 +164,6 @@ ENTRYPOINT ["java","-jar","/app.jar"]
 ---
 
 # 🚀 **8. Pipeline de Build (azure-pipelines.yml)**
-
-(⚠ arquivo obrigatório)
 
 ```
 trigger:
@@ -383,7 +310,3 @@ Este repositório implementa **100% dos requisitos da GS de DevOps**, incluindo:
 ✔ CRUD JSON
 ✔ Arquitetura macro
 ✔ Boas práticas de segurança
-📌 **Diagrama completo da arquitetura**
-📌 **README em versão PDF para a entrega**
-
-Só pedir!

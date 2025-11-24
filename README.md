@@ -16,7 +16,7 @@
 
 # 📌 **1. Visão Geral do Projeto**
 
-A **Java Analytics API** é o serviço responsável por consolidar dados do ecossistema *SkillBridge*, realizando análises de progresso, desempenho e evolução profissional dos usuários — gerando respostas em JSON consumidas pelo aplicativo mobile, pelo módulo de IA e por outras APIs internas.
+A **Java Analytics API** é o serviço responsável para consolidar dados do ecossistema *SkillBridge*, realizando análises de progresso, desempenho e evolução profissional dos usuários — gerando respostas em JSON consumidas pelo aplicativo mobile, pelo módulo de IA e por outras APIs internas.
 
 Ela utiliza um banco estruturado (SQL Server) e entrega relatórios inteligentes que alimentam toda a experiência do SkillBridge.
 
